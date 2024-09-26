@@ -10,7 +10,17 @@ document.getElementById("feedbackType").addEventListener("change", function () {
 
 // القائمة
 $(document).ready(() => {
-  $("#icon").click(() => $("ul").toggleClass("show"));
+  $("#menu-toggle").click(() => {
+    $("#mynavbar").toggleClass("show");
+    $(".menu-icon").toggle();
+    $(".close-icon").toggle();
+  });
+
+  $(".nav-link").click(() => {
+    $("#mynavbar").removeClass("show");
+    $(".menu-icon").show();
+    $(".close-icon").hide();
+  });
 });
 
 // انميشن
