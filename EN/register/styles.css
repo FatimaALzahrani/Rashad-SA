@@ -1,0 +1,224 @@
+@import url("https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,700,700i&display=swap");
+
+:root {
+  --teal: #52b69a;
+}
+
+body {
+  font-family: Rubik;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+nav {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  position: relative;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+nav ul {
+  float: right;
+  margin-right: 40px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+nav li {
+  display: inline-block;
+  margin: 0 8px;
+  line-height: 80px;
+}
+
+nav a {
+  text-decoration: wavy;
+  color: rgb(0, 0, 0);
+  font-size: 38px;
+  font-family: Rubik;
+  border: 1px solid transparent;
+  padding: 7px 10px;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  margin-top: 30px;
+}
+
+nav a.active,
+nav a:hover {
+  border-bottom: 5px solid #756b65;
+  transition: 0.5s;
+  color: var(--teal);
+}
+
+nav a.active1 {
+  border-bottom: 5px solid #756b65;
+  border-radius: 20px;
+  transition: 0.5s;
+}
+
+nav #icon {
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  line-height: 80px;
+  float: right;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+
+@media (max-width: 1650px) {
+  nav ul {
+    margin-right: 20px;
+  }
+
+  nav a {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 600px) {
+  nav img {
+    width: 80px;
+  }
+  nav ul {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #fdfeff;
+    top: 80px;
+    left: -110%;
+    text-align: center;
+    transition: all 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  nav li {
+    display: block;
+    margin: 20px 0;
+    line-height: 30px;
+  }
+
+  nav #icon {
+    display: block;
+  }
+
+  a.active,
+  a:hover {
+    border: none;
+    color: #ffffff;
+    background-color: #00344f;
+  }
+
+  nav ul.show {
+    left: 0;
+  }
+}
+
+.container {
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 93%;
+  max-width: 380px;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 24px;
+}
+
+p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 93%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  direction: rtl;
+  text-align: right;
+}
+
+.sign-in-btn {
+  background-color: var(--teal);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.divider span {
+  background-color: #fff;
+  padding: 0 10px;
+  color: #999;
+  font-size: 14px;
+}
+
+.google-signin {
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.signup-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.signup-link a {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+button,
+input {
+  font-family: Rubik;
+}

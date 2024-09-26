@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rashad | Create Account</title>
+    <link type="image/x-icon" rel="shortcut icon" href="../images/logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.paypal.com/sdk/js?client-id=ARYA0I9sLjK3fRMnNscr5RQx1nMokvIgWd4kd0QPEmwo_6K21BuEvwwEEsBLOjYZeEFAkhekcRrXqo0-&currency=USD"></script>
+  </head>
+  <body>
+    <div class="container">
+      <img src="../images/logo.png" width="100px" />
+      <h2>Create a New Account</h2>
+      <p>Let’s start by filling out the form below.</p>
+      <form id="register-form">
+        <div class="input-group">
+          <input
+            id="email"
+            type="email"
+            placeholder="Email Address"
+            required
+            style="text-align: right"
+          />
+        </div>
+        <div class="input-group">
+          <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            required
+            style="text-align: right"
+          />
+        </div>
+        <button type="button" class="sign-in-btn" id="pay-register-button">
+          Create Account
+        </button>
+        <div id="error-message" class="error-message"></div>
+      </form>
+      <div id="paypal-button-container"></div>
+      <div id="payment-message"></div>
+      <div class="divider">
+        <span>or</span>
+      </div>
+      <button class="google-signin" id="google-signin">
+        Sign in with Google
+      </button>
+      <p class="signup-link">
+        Already have an account? <a href="../login/index.html">Sign in here</a>
+      </p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script>
+      // Firebase setup
+      const firebaseConfig = {
+        apiKey: "AIzaSyAtxTTq-xOO_Y2_viJ7Bypo5QVpVCiSiEA",
+        authDomain: "your-broker-2b8a1.firebaseapp.com",
+        databaseURL: "https://your-broker-2b8a1-default-rtdb.firebaseio.com",
+        projectId: "your-broker-2b8a1",
+        storageBucket: "your-broker-2b8a1.appspot.com",
+        messagingSenderId: "1004261960328",
+        appId: "1:1004261960328:web:0ea87aeb97302876cc4d3d",
+        measurementId: "G-SF2SM5CSL8",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      const payRegisterButton = document.getElementById("pay-register-button");
+      const errorMessage = document.getElementById("error-message");
+      const paymentMessage = document.getElementById("payment-message");
+      let paymentButtonsRendered = false;
+
+      payRegisterButton.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (!email || !password) {
+          errorMessage.textContent = "Please fill in both email and password";
+          errorMessage.style.color = "red";
+          return;
+        } else {
+          errorMessage.textContent = "";
+        }
+
+        if (!paymentButtonsRendered) {
+          paypal
+            .Buttons({
+              createOrder: function (data, actions) {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: "0.27", // Value of 1 Saudi Riyal in USD
+                      },
+                    },
+                  ],
+                });
+              },
+              onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                  // After payment is successful, create the account
+                  auth
+                    .createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                      const user = userCredential.user;
+
+                      // Store user data in users table
+                      database.ref("users/" + user.uid).set({
+                        email: email,
+                        paymentId: user.uid,
+                        subscription: "gold",
+                      });
+
+                      window.location = "../index.html";
+                    })
+                    .catch((error) => {
+                      errorMessage.textContent = `An error occurred while creating the account: ${error.message}`;
+                      errorMessage.style.color = "red";
+                    });
+                });
+              },
+              onError: function (err) {
+                console.error("Error during payment: ", err);
+                errorMessage.textContent =
+                  "An error occurred during the payment process. Please try again.";
+                errorMessage.style.color = "red";
+              },
+            })
+            .render("#paypal-button-container");
+
+          paymentButtonsRendered = true;
+          paymentMessage.textContent =
+            "Please complete the payment to register your account.";
+          paymentMessage.style.color = "blue";
+        } else {
+          paymentMessage.textContent =
+            "The payment buttons have already been displayed. Please complete the payment to register your account.";
+          paymentMessage.style.color = "blue";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rashad | Payment - Gold Package</title>
+    <link type="image/x-icon" rel="shortcut icon" href="../images/logo.png" />
+    <link type="text/css" rel="stylesheet" href="../style.css" />
+    <script src="https://www.paypal.com/sdk/js?client-id=ARYA0I9sLjK3fRMnNscr5RQx1nMokvIgWd4kd0QPEmwo_6K21BuEvwwEEsBLOjYZeEFAkhekcRrXqo0-&currency=USD"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Amiri&display=swap");
+
+      :root {
+        --teal: #52b69a;
+        --dark: #1a1a1a;
+        --light: #f7f7f7;
+        --accent: #ff6f61;
+      }
+      body {
+        font-family: "Amiri", serif;
+        background-color: var(--light);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .payment-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        text-align: left;
+        border-top: 5px solid var(--teal);
+      }
+      h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: var(--dark);
+        border-bottom: 2px solid var(--teal);
+        padding-bottom: 10px;
+      }
+      p {
+        font-size: 20px;
+        color: var(--dark);
+        margin-bottom: 10px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+      ul li {
+        font-size: 18px;
+        margin-bottom: 8px;
+        padding-left: 10px;
+        position: relative;
+        color: var(--dark);
+      }
+      ul li::before {
+        content: "✔";
+        color: var(--teal);
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 2px;
+      }
+      #paypal-button-container {
+        margin-top: 30px;
+      }
+      #error-message {
+        color: var(--accent);
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      .payment-container strong {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="payment-container">
+      <h1>Payment for Gold Package</h1>
+      <p>Package Price: <strong>229 SAR</strong></p>
+      <p>This package includes:</p>
+      <ul>
+        <li>Unlimited Communication</li>
+        <li>Open Time</li>
+        <li>All Characters</li>
+        <li>Character Modification</li>
+        <li>Language Modification</li>
+        <li>Interactive</li>
+      </ul>
+
+      <div id="paypal-button-container"></div>
+      <div id="error-message"></div>
+    </div>
+
+    <script>
+      // إعداد Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyAtxTTq-xOO_Y2_viJ7Bypo5QVpVCiSiEA",
+        authDomain: "your-broker-2b8a1.firebaseapp.com",
+        databaseURL: "https://your-broker-2b8a1-default-rtdb.firebaseio.com",
+        projectId: "your-broker-2b8a1",
+        storageBucket: "your-broker-2b8a1.appspot.com",
+        messagingSenderId: "1004261960328",
+        appId: "1:1004261960328:web:0ea87aeb97302876cc4d3d",
+        measurementId: "G-SF2SM5CSL8",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          const username = user.displayName || "User";
+          const email = user.email;
+
+          paypal
+            .Buttons({
+              createOrder: function (data, actions) {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: "61.06",
+                      },
+                    },
+                  ],
+                });
+              },
+              onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                  alert("Payment was successful");
+
+                  const subscriptionRef = database
+                    .ref("subscriptions/gold")
+                    .push();
+                  subscriptionRef.set({
+                    username: username,
+                    email: email,
+                    paymentId: details.id,
+                    amount: details.purchase_units[0].amount.value,
+                    status: details.status,
+                  });
+                });
+              },
+              onError: function (err) {
+                console.error("Error during payment: ", err);
+                document.getElementById("error-message").textContent =
+                  "An error occurred during the payment process. Please try again.";
+              },
+            })
+            .render("#paypal-button-container");
+        } else {
+          window.location.href = "../login/index.html";
+        }
+      });
+    </script>
+  </body>
+</html>
