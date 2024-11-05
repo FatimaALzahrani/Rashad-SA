@@ -6,7 +6,6 @@
     <title>رَشـاد | إنشاء حساب</title>
     <link type="image/x-icon" rel="shortcut icon" href="../images/logo.png" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://www.paypal.com/sdk/js?client-id=ARYA0I9sLjK3fRMnNscr5RQx1nMokvIgWd4kd0QPEmwo_6K21BuEvwwEEsBLOjYZeEFAkhekcRrXqo0-&currency=USD"></script>
   </head>
   <body>
     <div class="container">
@@ -32,13 +31,11 @@
             style="text-align: right"
           />
         </div>
-        <button type="button" class="sign-in-btn" id="pay-register-button">
+        <button type="button" class="sign-in-btn" id="register-button">
           إنشاء حساب
         </button>
         <div id="error-message" class="error-message"></div>
       </form>
-      <div id="paypal-button-container"></div>
-      <div id="payment-message"></div>
       <div class="divider">
         <span>أو</span>
       </div>
@@ -54,7 +51,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <script>
-      // إعداد Firebase
       const firebaseConfig = {
         apiKey: "AIzaSyAtxTTq-xOO_Y2_viJ7Bypo5QVpVCiSiEA",
         authDomain: "your-broker-2b8a1.firebaseapp.com",
@@ -70,78 +66,37 @@
       const auth = firebase.auth();
       const database = firebase.database();
 
-      const payRegisterButton = document.getElementById("pay-register-button");
+      const registerButton = document.getElementById("register-button");
       const errorMessage = document.getElementById("error-message");
-      const paymentMessage = document.getElementById("payment-message");
-      let paymentButtonsRendered = false;
 
-      payRegisterButton.addEventListener("click", () => {
+      registerButton.addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
         if (!email || !password) {
-          errorMessage.textContent =
-            "يرجى تعبئة البريد الإلكتروني وكلمة المرور";
+          errorMessage.textContent = "يرجى تعبئة البريد الإلكتروني وكلمة المرور";
           errorMessage.style.color = "red";
           return;
         } else {
           errorMessage.textContent = "";
         }
 
-        if (!paymentButtonsRendered) {
-          paypal
-            .Buttons({
-              createOrder: function (data, actions) {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: "0.27", // قيمة 1 ريال سعودي بالدولار
-                      },
-                    },
-                  ],
-                });
-              },
-              onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                  // بعد نجاح الدفع، إنشاء الحساب
-                  auth
-                    .createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                      const user = userCredential.user;
+        auth
+          .createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
 
-                      // تخزين بيانات المستخدم في جدول user
-                      database.ref("users/" + user.uid).set({
-                        email: email,
-                        paymentId: user.uid,
-                        subscription: "gold",
-                      });
+            database.ref("users/" + user.uid).set({
+              email: email,
+              subscription: "free",
+            });
 
-                      window.location = "../index.html";
-                    })
-                    .catch((error) => {
-                      errorMessage.textContent = `حدث خطأ أثناء إنشاء الحساب: ${error.message}`;
-                      errorMessage.style.color = "red";
-                    });
-                });
-              },
-              onError: function (err) {
-                console.error("Error during payment: ", err);
-                errorMessage.textContent =
-                  "حدث خطأ أثناء عملية الدفع. يرجى المحاولة مرة أخرى.";
-                errorMessage.style.color = "red";
-              },
-            })
-            .render("#paypal-button-container");
-
-          paymentButtonsRendered = true;
-          paymentMessage.textContent = "يرجى إتمام الدفع لتسجيل حسابك.";
-          paymentMessage.style.color = "blue";
-        } else {
-          paymentMessage.textContent =
-            "لقد تم عرض أزرار الدفع بالفعل. يرجى إتمام الدفع لتسجيل حسابك.";
-          paymentMessage.style.color = "blue";
-        }
+            window.location = "../index.html";
+          })
+          .catch((error) => {
+            errorMessage.textContent = `حدث خطأ أثناء إنشاء الحساب: ${error.message}`;
+            errorMessage.style.color = "red";
+          });
       });
     </script>
   </body>
