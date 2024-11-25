@@ -339,6 +339,10 @@ video {
   font-style: bold;
 }
 
+.not_clear {
+  color: lightgray;
+  font-weight: bold;
+}
 /* Section Packages End */
 
 /* Section Services Start */
