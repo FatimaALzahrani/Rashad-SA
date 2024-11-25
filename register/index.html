@@ -50,6 +50,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+<<<<<<< HEAD
     <script>
       const firebaseConfig = {
         apiKey: "AIzaSyAtxTTq-xOO_Y2_viJ7Bypo5QVpVCiSiEA",
@@ -61,11 +62,25 @@
         appId: "1:1004261960328:web:0ea87aeb97302876cc4d3d",
         measurementId: "G-SF2SM5CSL8",
       };
+=======
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAtxTTq-xOO_Y2_viJ7Bypo5QVpVCiSiEA",
+    authDomain: "your-broker-2b8a1.firebaseapp.com",
+    databaseURL: "https://your-broker-2b8a1-default-rtdb.firebaseio.com",
+    projectId: "your-broker-2b8a1",
+    storageBucket: "your-broker-2b8a1.appspot.com",
+    messagingSenderId: "1004261960328",
+    appId: "1:1004261960328:web:0ea87aeb97302876cc4d3d",
+    measurementId: "G-SF2SM5CSL8",
+  };
+>>>>>>> ae3468f234b8bdb03624ffaef26db5a62a3bcc7a
 
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const database = firebase.database();
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const database = firebase.database();
 
+<<<<<<< HEAD
       const registerButton = document.getElementById("register-button");
       const googleSignInButton = document.getElementById("google-signin");
       const errorMessage = document.getElementById("error-message");
@@ -73,16 +88,25 @@
       registerButton.addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+=======
+  const registerButton = document.getElementById("register-button");
+  const googleSignInButton = document.getElementById("google-signin");
+  const errorMessage = document.getElementById("error-message");
 
-        if (!email || !password) {
-          errorMessage.textContent =
-            "يرجى تعبئة البريد الإلكتروني وكلمة المرور";
-          errorMessage.style.color = "red";
-          return;
-        } else {
-          errorMessage.textContent = "";
-        }
+  registerButton.addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+>>>>>>> ae3468f234b8bdb03624ffaef26db5a62a3bcc7a
 
+    if (!email || !password) {
+      errorMessage.textContent = "يرجى تعبئة البريد الإلكتروني وكلمة المرور";
+      errorMessage.style.color = "red";
+      return;
+    } else {
+      errorMessage.textContent = "";
+    }
+
+<<<<<<< HEAD
         auth
           .createUserWithEmailAndPassword(email, password)
           .then((userCredential) => {
@@ -124,7 +148,50 @@
             errorMessage.textContent = `حدث خطأ أثناء تسجيل الدخول: ${error.message}`;
             errorMessage.style.color = "red";
           });
+=======
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        database.ref("users/" + user.uid).set({
+          email: email,
+          subscription: "free",
+        });
+
+        window.location = "../index.html";
+      })
+      .catch((error) => {
+        errorMessage.textContent = `حدث خطأ أثناء إنشاء الحساب: ${error.message}`;
+        errorMessage.style.color = "red";
+>>>>>>> ae3468f234b8bdb03624ffaef26db5a62a3bcc7a
       });
-    </script>
+  });
+
+  googleSignInButton.addEventListener("click", () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user;
+
+        const userRef = database.ref("users/" + user.uid);
+        userRef.once("value", (snapshot) => {
+          if (!snapshot.exists()) {
+            userRef.set({
+              email: user.email,
+              subscription: "free",
+            });
+          }
+        });
+
+        window.location = "../index.html";
+      })
+      .catch((error) => {
+        errorMessage.textContent = `حدث خطأ أثناء تسجيل الدخول: ${error.message}`;
+        errorMessage.style.color = "red";
+      });
+  });
+</script>
   </body>
 </html>

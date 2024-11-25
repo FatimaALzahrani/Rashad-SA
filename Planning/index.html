@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>رَشـاد | الدفع - باقة تخطيط الرحلات</title>
+    <link type="image/x-icon" rel="shortcut icon" href="../images/logo.png" />
+    <link type="text/css" rel="stylesheet" href="../style.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <div class="payment-container">
+      <h1>الدفع لباقة تخطيط الرحلات</h1>
+      <p>سعر الباقة: <strong>14 ريال</strong></p>
+      <p>يرجى اختيار طريقة الدفع:</p>
+
+      <!-- Apple Pay -->
+      <div id="apple-pay-button"></div>
+
+      <!-- Mada -->
+      <button id="mada-button">الدفع عبر Mada</button>
+
+      <div id="error-message"></div>
+    </div>
+
+    <script>
+      // Apple Pay Integration via Stripe
+      const stripe = Stripe("your-stripe-publishable-key");
+
+      const applePayButton = document.getElementById("apple-pay-button");
+      stripe
+        .paymentRequest({
+          country: "SA",
+          currency: "sar",
+          total: {
+            label: "باقة تخطيط الرحلات",
+            amount: 1400, // بالمليم (14 ريال سعودي)
+          },
+          requestPayerName: true,
+          requestPayerEmail: true,
+        })
+        .canMakePayment()
+        .then((result) => {
+          if (result) {
+            // Show Apple Pay Button
+            applePayButton.style.display = "block";
+          } else {
+            document.getElementById("error-message").textContent =
+              "Apple Pay غير مدعوم على هذا الجهاز.";
+          }
+        });
+
+      // Mada Integration Placeholder
+      document.getElementById("mada-button").addEventListener("click", () => {
+        alert("تم اختيار Mada. أكمل التكامل مع البوابة المختارة.");
+      });
+    </script>
+  </body>
+</html>
