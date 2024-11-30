@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سياسة الخصوصية</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* إعداد النصوص الرئيسية */
+      body {
+        font-family: "Tajawal", sans-serif;
+        direction: rtl;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      /* تنسيق الهيدر */
+      header.navbar {
+        background-color: #005c84;
+        color: #fff;
+        padding: 15px 20px;
+        text-align: center;
+      }
+
+      header.navbar a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      header.navbar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      header.navbar ul li {
+        margin: 0 15px;
+      }
+
+      header.navbar ul li a:hover {
+        text-decoration: underline;
+      }
+
+      /* الصفحة الرئيسية */
+      main.container {
+        max-width: 900px;
+        margin: 100px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      main.container h1 {
+        font-size: 2.5rem;
+        color: #005c84;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      main.container h2 {
+        font-size: 1.8rem;
+        color: #0073a8;
+        margin: 20px 0 10px;
+      }
+
+      main.container p,
+      main.container ul {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+
+      main.container ul {
+        padding-left: 20px;
+        list-style-type: square;
+      }
+
+      main.container ul li {
+        margin-bottom: 10px;
+      }
+
+      /* الروابط */
+      a {
+        color: #0073a8;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* الفوتر */
+      footer {
+        background-color: #005c84;
+        color: #fff;
+        text-align: center;
+        padding: 15px 0;
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 0;
+        font-size: 1rem;
+      }
+    </style>
+    <!-- JQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- JQuery -->
+
+    <!-- Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <!-- Swiper -->
+    <!-- Bootstrap Link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Link -->
+
+    <!-- Font Awesome Cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/d5c6986420.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Font Awesome Cdn -->
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+      <div class="container">
+        <a class="navbar-brand" href="index.html" id="logo"
+          ><span>رَ</span>شـاد</a
+        >
+
+        <button class="navbar-toggler" type="button" id="menu-toggle">
+          <span class="menu-icon"><i class="fa-solid fa-bars"></i></span>
+          <span class="close-icon" style="display: none"
+            ><i class="fa-solid fa-xmark"></i
+          ></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">الرئيسية</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">من نحن؟</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="https://ddna-rashad3ac6--rashad.soului.dh.soulmachines.cloud/?sig=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzA5Njc2NTQsImlzcyI6InNpZ25lZF91cmwtMjI2MGY2ZDktN2Y1Zi00MTI5LWI5Y2UtNjQwODQ1N2QxZmQ3IiwiZXhwIjoxODE3MjgxMjU0LCJlbWFpbCI6InJhc2hhZDNhYzYtLXJhc2hhZEBkZG5hLnN0dWRpbyIsInNvdWxJZCI6ImRkbmEtcmFzaGFkM2FjNi0tcmFzaGFkIn0.x-gnwvYNJYcQqqv86q4qPuDZosJpRr88uGehZkyqjVw"
+                >جرب الآن</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">تواصل معنا</a>
+            </li>
+            <li class="nav-item" id="auth-button"></li>
+            <li class="nav-item">
+              <a href="EN/index.html" class="nav-link" id="language-switcher"
+                >EN</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Privacy Policy Content -->
+    <main class="container">
+      <h1>سياسة الخصوصية</h1>
+      <p>
+        نحن في رَشاد نحترم خصوصيتك ونلتزم بحماية معلوماتك الشخصية. توضح سياسة
+        الخصوصية هذه كيفية جمع واستخدام وحماية البيانات الشخصية التي تقدمها لنا
+        عند زيارتك لموقعنا.
+      </p>
+      <p>
+        من خلال استخدامك لموقعنا، أنت توافق على ممارسات الخصوصية الموضحة في هذه
+        السياسة.
+      </p>
+
+      <h2>1. البيانات التي نقوم بجمعها</h2>
+      <ul>
+        <li>
+          البيانات الشخصية: مثل الاسم، البريد الإلكتروني، رقم الهاتف، العنوان
+          (عند التسجيل أو الشراء).
+        </li>
+        <li>
+          البيانات غير الشخصية: مثل عنوان IP، نوع المتصفح، نوع الجهاز، الصفحات
+          التي تمت زيارتها، والوقت الذي أمضيته في الموقع.
+        </li>
+        <li>
+          ملفات تعريف الارتباط (Cookies): نحن نستخدم ملفات تعريف الارتباط لتحسين
+          تجربتك على الموقع.
+        </li>
+      </ul>
+
+      <h2>2. كيفية استخدام البيانات</h2>
+      <p>نستخدم بياناتك الشخصية للأغراض التالية:</p>
+      <ul>
+        <li>
+          لتحسين تجربتك على الموقع وتخصيص المحتوى والعروض بما يتناسب مع
+          اهتماماتك.
+        </li>
+        <li>لمعالجة الطلبات أو الاستفسارات التي قد تقدمها.</li>
+        <li>
+          لإرسال رسائل تسويقية أو إعلامية (إذا اخترت الاشتراك في النشرات
+          الإخبارية).
+        </li>
+      </ul>
+
+      <h2>3. مشاركة البيانات مع أطراف ثالثة</h2>
+      <p>
+        نحن نحترم خصوصيتك ولا نشارك بياناتك الشخصية مع أطراف ثالثة إلا في
+        الحالات التالية:
+      </p>
+      <ul>
+        <li>
+          مع مزودي الخدمة الذين يساعدوننا في تشغيل الموقع أو تقديم الخدمات.
+        </li>
+        <li>
+          إذا كان ذلك مطلوبًا بموجب القانون أو بناءً على طلب السلطات القانونية.
+        </li>
+      </ul>
+
+      <h2>4. حماية البيانات</h2>
+      <p>
+        نحن نتخذ التدابير الأمنية اللازمة لحماية بياناتك الشخصية من الوصول غير
+        المصرح به أو التعديل أو الفقدان.
+      </p>
+
+      <h2>5. حقوقك في البيانات</h2>
+      <p>لديك الحق في:</p>
+      <ul>
+        <li>الوصول إلى بياناتك الشخصية التي نحتفظ بها.</li>
+        <li>طلب تصحيح أي بيانات غير دقيقة.</li>
+        <li>طلب حذف بياناتك الشخصية.</li>
+        <li>الاعتراض على معالجة بياناتك لأغراض معينة مثل التسويق المباشر.</li>
+      </ul>
+
+      <h2>6. استخدام ملفات تعريف الارتباط (Cookies)</h2>
+      <p>
+        يمكنك تعطيل ملفات تعريف الارتباط من خلال إعدادات المتصفح، ولكن هذا قد
+        يؤثر على بعض وظائف الموقع.
+      </p>
+
+      <h2>7. التغييرات في سياسة الخصوصية</h2>
+      <p>
+        قد نقوم بتعديل هذه السياسة من وقت لآخر. سيتم نشر أي تعديلات على هذه
+        الصفحة مع تاريخ التحديث.
+      </p>
+
+      <h2>8. التواصل معنا</h2>
+      <p>إذا كانت لديك أي استفسارات أو مخاوف بشأن سياسة الخصوصية:</p>
+      <ul>
+        <li>
+          البريد الإلكتروني:
+          <a href="mailto:rashad.saudi.ai@gmail.com"
+            >rashad.saudi.ai@gmail.com</a
+          >
+        </li>
+        <!-- <li>الهاتف: <span></span></li> -->
+        <li>العنوان: المدينة</li>
+      </ul>
+    </main>
+
+    <!-- Footer Start -->
+    <footer id="footer">
+      <div class="content">
+        <div class="footer-container">
+          <div class="footer-section logo-section">
+            <img src="images/logo2.png" alt="رشاد" class="footer-logo" />
+            <p>مرشدك الإفتراضي لتجربة روحية استثنائية في قلب المملكة !</p>
+          </div>
+          <div class="footer-section">
+            <ul>
+              <li><a href="index.html">الرئيسية</a></li>
+              <li>
+                <a
+                  href="https://ddna-rashad3ac6--rashad.soului.dh.soulmachines.cloud/?sig=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzA5Njc2NTQsImlzcyI6InNpZ25lZF91cmwtMjI2MGY2ZDktN2Y1Zi00MTI5LWI5Y2UtNjQwODQ1N2QxZmQ3IiwiZXhwIjoxODE3MjgxMjU0LCJlbWFpbCI6InJhc2hhZDNhYzYtLXJhc2hhZEBkZG5hLnN0dWRpbyIsInNvdWxJZCI6ImRkbmEtcmFzaGFkM2FjNi0tcmFzaGFkIn0.x-gnwvYNJYcQqqv86q4qPuDZosJpRr88uGehZkyqjVw"
+                  >جرب الآن</a
+                >
+              </li>
+              <li><a href="index.html#about">من نحن</a></li>
+              <li><a href="index.html#contact">تواصل معنا</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>حقوق الملكية محفوظة لمؤسسة رَشاد © 2024</p>
+        <ul>
+          <li><a href="privacy.html">سياسة الخصوصية</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="https://x.com/RashadSaTech"
+            ><i class="fa-brands fa-x-twitter"></i
+          ></a>
+          <a href="https://www.instagram.com/ai_rashad/" class="me-2"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="mailto: rashad.sa.tech@gmail.com"
+            ><i class="fa-regular fa-envelope"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

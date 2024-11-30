@@ -23,7 +23,7 @@ body {
 #navbar {
   background: #f9f9f9;
   position: fixed;
-  top: 0; 
+  top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -42,7 +42,7 @@ body {
 }
 
 .navbar-toggler {
-  border: none; 
+  border: none;
 }
 
 .navbar-toggler span {
@@ -86,7 +86,7 @@ body {
     justify-content: center;
     align-items: center;
     transition: 0.5s;
-    z-index: 9999; 
+    z-index: 9999;
   }
 
   #mynavbar.show {
@@ -118,7 +118,7 @@ body {
   width: 100%;
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)),
-    url(./images/makah.jpg);
+    url(./images/makah.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -502,15 +502,15 @@ video {
   color: var(--primary);
 }
 
-  .team-container {
-    display: flex;
-    justify-content: center; 
-    flex-wrap: wrap; 
-  }
-  .box {
-    max-width: 350px; 
-    margin: 10px;
-  }
+.team-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.box {
+  max-width: 350px;
+  margin: 10px;
+}
 /* team End */
 
 /* Section Review Start */
