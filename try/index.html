@@ -63,19 +63,19 @@
     />
     <!-- Swiper -->
 
-  <script
-  src="https://static.soulmachines.com/widget-snippet-1.12.0.min.js"
-  data-sm-api-key="eyJzb3VsSWQiOiJkZG5hLXJhc2hhZDNhYzYtLXJhc2hhZCIsImF1dGhTZXJ2ZXIiOiJodHRwczovL2RoLnNvdWxtYWNoaW5lcy5jbG91ZC9hcGkvand0IiwiYXV0aFRva2VuIjoiYXBpa2V5X3YxX2Y4MDI4ZDFkLTZkZDYtNGUzOS04YWQwLTNmYWYwZGRiODE0YiJ9" ></script>  "
- </script>
+    <style>
+      /* CSS for embedding the character and enlarging it */
+      #soulmachines-widget {
+        width: 100%; /* Make it take the full width of the page */
+        height: 600px; /* Adjust the height to make it larger */
+        margin-top: 50px; /* Adds some space above the character */
+      }
+    </style>
   </head>
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg" id="navbar">
       <div class="container">
-        <!-- <form class="d-flex">
-          <input class="form-control me-2" type="text" placeholder="إبحث" />
-          <button class="btn btn-primary" type="button">البحث</button>
-        </form> -->
         <a class="navbar-brand" href="index.html" id="logo"
           ><span>رَ</span>شـاد</a
         >
@@ -84,9 +84,7 @@
             <li class="nav-item">
               <a class="nav-link active" href="../index.html">الرئيسية</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">جرب الآن</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="">جرب الآن</a></li>
             <li class="nav-item">
               <a class="nav-link" href="../index.html#packages">الباقات</a>
             </li>
@@ -116,13 +114,14 @@
       </div>
     </nav>
     <!-- Navbar End -->
-    <iframe
-      src="https://ddna-rashad3ac6--rashad.soului.dh.soulmachines.cloud/?sig=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzA5Njc2NTQsImlzcyI6InNpZ25lZF91cmwtMjI2MGY2ZDktN2Y1Zi00MTI5LWI5Y2UtNjQwODQ1N2QxZmQ3IiwiZXhwIjoxODE3MjgxMjU0LCJlbWFpbCI6InJhc2hhZDNhYzYtLXJhc2hhZEBkZG5hLnN0dWRpbyIsInNvdWxJZCI6ImRkbmEtcmFzaGFkM2FjNi0tcmFzaGFkIn0.x-gnwvYNJYcQqqv86q4qPuDZosJpRr88uGehZkyqjVw"
-      width="100%"
-      height="800px"
-      style="border: none"
-    >
-    </iframe>
+
+    <!-- SOulo Machine Character Display -->
+    <div id="soulmachines-widget">
+      <script
+        src="https://static.soulmachines.com/widget-snippet-1.12.0.min.js"
+        data-sm-api-key="eyJzb3VsSWQiOiJkZG5hLXJhc2hhZDNhYzYtLXJhc2hhZCIsImF1dGhTZXJ2ZXIiOiJodHRwczovL2RoLnNvdWxtYWNoaW5lcy5jbG91ZC9hcGkvand0IiwiYXV0aFRva2VuIjoiYXBpa2V5X3YxX2Y4MDI4ZDFkLTZkZDYtNGUzOS04YWQwLTNmYWYwZGRiODE0YiJ9"
+      ></script>
+    </div>
 
     <!-- Footer Start -->
     <footer id="footer">
@@ -138,9 +137,7 @@
           <div class="footer-section">
             <ul>
               <li><a href="index.html">الرئيسية</a></li>
-              <li>
-                <a href="try/index.html">جرب الآن</a>
-              </li>
+              <li><a href="try/index.html">جرب الآن</a></li>
               <li><a href="about/index.html">من نحن</a></li>
               <li><a href="contact/index.html">تواصل معنا</a></li>
             </ul>
