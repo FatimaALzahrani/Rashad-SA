@@ -1,45 +1,49 @@
-// // ----- الشخصية الافتراضية -----
-// // تحديد عنصر الفيديو
-const videoEl = document.getElementById("sm-video");
+document.addEventListener("DOMContentLoaded", () => {
+  const videoEl = document.getElementById("sm-video");
+  const statusElement = document.getElementById("status-text");
 
-// إنشاء كائن Scene
-const scene = new Scene({
-  videoElement: videoEl,
-  apiKey:
-    "eyJzb3VsSWQiOiJkZG5hLXJhc2hhZDNhYzYtLXJhc2hhZCIsImF1dGhTZXJ2ZXIiOiJodHRwczovL2RoLnNvdWxtYWNoaW5lcy5jbG91ZC9hcGkvand0IiwiYXV0aFRva2VuIjoiYXBpa2V5X3YxX2Y4MDI4ZDFkLTZkZDYtNGUzOS04YWQwLTNmYWYwZGRiODE0YiJ9",
-  requestedMediaDevices: { microphone: true },
-  requiredMediaDevices: {}, // اجعل الوسائط اختيارية لتجنب حجب المستخدمين
-  sendMetadata: {
-    pageUrl: true, // إرسال بيانات الصفحة لمحرك NLP
-  },
+  if (!videoEl) {
+    console.error("عنصر الفيديو غير موجود.");
+    return;
+  }
+
+  try {
+    const scene = new Scene({
+      videoElement: videoEl,
+      apiKey:
+        "eyJzb3VsSWQiOiJkZG5hLXJhc2hhZDNhYzYtLXJhc2hhZCIsImF1dGhTZXJ2ZXIiOiJodHRwczovL2RoLnNvdWxtYWNoaW5lcy5jbG91ZC9hcGkvand0IiwiYXV0aFRva2VuIjoiYXBpa2V5X3YxX2Y4MDI4ZDFkLTZkZDYtNGUzOS04YWQwLTNmYWYwZGRiODE0YiJ9", // استبدل بـ مفتاح API الخاص بك
+    });
+
+    scene
+      .connect()
+      .then(() => {
+        console.log("تم الاتصال بنجاح.");
+        if (statusElement) {
+          statusElement.textContent = "تم الاتصال بنجاح.";
+        }
+      })
+      .catch((error) => {
+        console.error("فشل الاتصال:", error);
+        if (statusElement) {
+          statusElement.textContent = "فشل الاتصال.";
+        }
+      });
+
+    scene.addEventListener("connected", () => {
+      console.log("تم الاتصال بالحدث: connected");
+    });
+
+    scene.addEventListener("error", (err) => {
+      console.error("حدث خطأ:", err);
+    });
+  } catch (err) {
+    console.error("فشل تهيئة المشهد:", err);
+    if (statusElement) {
+      statusElement.textContent = "فشل تهيئة المشهد.";
+    }
+  }
 });
 
-// عرض حالة الاتصال
-const statusDiv = document.getElementById("status");
-
-// معالجة نجاح الاتصال
-scene
-  .connect()
-  .then((sessionId) => {
-    console.log("تم الاتصال بنجاح. معرف الجلسة:", sessionId);
-    statusDiv.textContent = "تم الاتصال بنجاح!";
-    return scene.startVideo(); // بدء عرض الفيديو
-  })
-  .then((videoState) => {
-    console.log("تم تشغيل الفيديو بالحالة:", videoState);
-    statusDiv.textContent += " الفيديو قيد التشغيل!";
-  })
-  .catch((error) => {
-    console.error("فشل الاتصال:", error);
-    statusDiv.textContent = `خطأ: ${error.name}`;
-  });
-
-// معالجة أخطاء الاتصال
-scene.on("error", (error) => {
-  console.error("خطأ:", error);
-});
-
-// ----- تهيئة Firebase -----
 const firebaseConfig = {
   apiKey: "AIzaSyAtxTTq-xOO_Y2_viJ7Bypo5QVpVCiSiEA",
   authDomain: "your-broker-2b8a1.firebaseapp.com",
@@ -51,24 +55,20 @@ const firebaseConfig = {
   measurementId: "G-SF2SM5CSL8",
 };
 
-// تهيئة Firebase
 firebase.initializeApp(firebaseConfig);
 
-// المتغيرات العامة
 const db = firebase.database();
 const auth = firebase.auth();
 const remainingTimeMessage = document.getElementById("remaining-time-message");
 
-// الوقت المجاني للمستخدمين غير المشتركين
-const FREE_TRIAL_TIME = 15 * 60 * 1000; // 15 دقيقة بالميلي ثانية
-let intervalId = null; // معرف المؤقت
+const FREE_TRIAL_TIME = 15 * 60 * 1000;
+let intervalId = null;
 
-// التحقق من تسجيل الدخول
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    checkSubscription(user.uid); // التحقق من الاشتراك
+    checkSubscription(user.uid);
   } else {
-    window.location.href = "../login.html"; // التوجيه إلى تسجيل الدخول
+    window.location.href = "../login.html";
   }
 });
 
@@ -101,7 +101,6 @@ function checkSubscription(userId) {
   });
 }
 
-// التعامل مع المستخدمين غير المشتركين
 function handleGuestAccess(userId) {
   const currentTime = Date.now();
 
@@ -131,7 +130,6 @@ function handleGuestAccess(userId) {
   });
 }
 
-// التحقق من الحد الأقصى للاستخدام
 function checkUsageLimit(userId, maxTime) {
   db.ref(`users/${userId}/dailyUsage`).once("value", (snapshot) => {
     const dailyUsage = snapshot.val() || 0;
@@ -147,7 +145,6 @@ function checkUsageLimit(userId, maxTime) {
   });
 }
 
-// تتبع وقت الاستخدام
 function startUsageTracking(userId, remainingTime) {
   const startTime = Date.now();
 
@@ -162,7 +159,6 @@ function startUsageTracking(userId, remainingTime) {
   });
 }
 
-// العد التنازلي للوقت المتبقي
 function startTimeCountdown(remainingTime) {
   let timeLeft = remainingTime;
   intervalId = setInterval(() => {
