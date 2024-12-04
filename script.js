@@ -135,78 +135,50 @@ function sendMail() {
     .catch((err) => console.log(err));
 }
 
-// اظهار التقييمات
 const database = firebase.database();
-document.addEventListener("DOMContentLoaded", function () {
-  const reviewsContainer = document.getElementById("reviews-container");
+function loadHorizontalReviews() {
+  const reviewsList = document.querySelector(".reviews-list");
 
   database
     .ref("messages")
     .orderByChild("feedbackType")
     .equalTo("رأي/تقييم")
-    .on("value", (snapshot) => {
+    .once("value", (snapshot) => {
       const reviews = snapshot.val();
-      reviewsContainer.innerHTML = "";
+      reviewsList.innerHTML = ""; // تفريغ التقييمات القديمة
 
-      for (let key in reviews) {
-        const review = reviews[key];
-        const reviewElement = document.createElement("div");
-        reviewElement.classList.add("swiper-slide");
+      if (reviews) {
+        for (let key in reviews) {
+          const review = reviews[key];
+          const reviewElement = document.createElement("div");
+          reviewElement.classList.add("review-card");
 
-        reviewElement.innerHTML = `
-          <div class="box">
-            <img src="images/person.png" >
+          reviewElement.innerHTML = `
+            <img src="images/person.png" alt="User">
             <h3>${review.username}</h3>
             <p>${review.message}</p>
             <div class="stars">${generateStars(review.rating)}</div>
-          </div>
-        `;
+          `;
 
-        reviewsContainer.appendChild(reviewElement);
+          reviewsList.appendChild(reviewElement);
+        }
+      } else {
+        reviewsList.innerHTML = "لا توجد تقييمات حاليًا.";
       }
-
-      const swiper = new Swiper(".review-slider", {
-        slidesPerView: 1,
-        spaceBetween: 10,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      });
     });
+}
 
-  function generateStars(rating) {
-    let stars = "";
-    for (let i = 1; i <= 5; i++) {
-      stars +=
-        i <= rating
-          ? '<i class="fas fa-star"></i>'
-          : '<i class="far fa-star"></i>';
-    }
-    return stars;
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  loadHorizontalReviews();
 });
 
-// var swiper = new Swiper(".review-slider", {
-//   spaceBetween: 20,
-//   loop: true,
-//   autoplay: {
-//     delay: 2500,
-//     disableOnInteraction: false,
-//   },
-//   breakpoints: {
-//     640: {
-//       slidesPerView: 1,
-//     },
-//     768: {
-//       slidesPerView: 2,
-//     },
-//     1024: {
-//       slidesPerView: 3,
-//     },
-//   },
-// });
+function generateStars(rating) {
+  let stars = "";
+  for (let i = 1; i <= 5; i++) {
+    stars +=
+      i <= rating
+        ? '<i class="fas fa-star"></i>'
+        : '<i class="far fa-star"></i>';
+  }
+  return stars;
+}

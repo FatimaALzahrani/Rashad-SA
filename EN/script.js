@@ -62,7 +62,7 @@ const auth = firebase.auth();
 auth.onAuthStateChanged((user) => {
   const authButton = document.getElementById("auth-button");
   if (user) {
-    authButton.innerHTML = `<a class="nav-link" href="#" onclick="logout()">Sign Out/a>`;
+    authButton.innerHTML = `<a class="nav-link" href="#" onclick="logout()">Sign Out</a>`;
   } else {
     authButton.innerHTML = `<a class="nav-link" href="login/index.html">Sign In</a>`;
   }

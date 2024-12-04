@@ -118,9 +118,11 @@ body {
   width: 100%;
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)),
-    url(./images/makah.jpeg);
+    url(https://www.mosoah.com/wp-content/uploads/2020/01/%D8%B5%D9%88%D8%B1-%D8%A7%D9%84%D8%AD%D8%B1%D9%85.jpg);
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
 }
 .home .content {
   text-align: center;
@@ -513,54 +515,68 @@ video {
 }
 /* team End */
 
-/* Section Review Start */
+/* قسم التقييمات */
 .review {
   background: #f1f1f1a6;
-  height: 50hv;
+  padding: 40px 20px;
+  text-align: center;
 }
+
 .review .heading {
-  text-align: center;
-  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
   text-shadow: 0px 1px 1px black;
-  font-weight: 600;
-  padding-top: 10px;
-}
-.review h3 {
-  text-align: center;
+  font-weight: bold;
   color: var(--primary);
-  text-shadow: 0px 1px 1px black;
-  font-weight: 500;
 }
-.review .swiper-container {
-  width: 100%;
-  height: 100%;
+
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
-.review .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.review .box {
+.review-card {
   background: #fff;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: max-content;
   text-align: center;
 }
-.review .box img {
+.review-card img {
   width: 100px;
   height: 100px;
-  object-fit: cover;
   border-radius: 50%;
+  margin-bottom: 10px;
 }
-.review .stars {
+.review-card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+.review-card p {
+  font-size: 14px;
+  color: #666;
+}
+.review-card .stars {
   margin-top: 10px;
 }
-.review .stars i {
+.review-card .stars i {
   color: gold;
 }
-/* Section Review End */
+.horizontal-reviews-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 20px 0;
+  background: #f1f1f1a6;
+}
 
+.reviews-list {
+  display: flex;
+  gap: 20px;
+}
 /* Section contact Start */
 .contact {
   padding: 50px;
