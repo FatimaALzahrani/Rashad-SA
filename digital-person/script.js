@@ -115,7 +115,10 @@ function setupUserTime(userId, timeLimit, subscriptionStatus) {
     }, 1000);
 
     window.addEventListener("beforeunload", () => {
-      updateUserData(userId, { remainingTime });
+      updateUserData(userId, {
+        lastAccessTime: remainingTime > 0 ? lastAccessTime : Date.now(),
+        remainingTime,
+      });
     });
   });
 }
