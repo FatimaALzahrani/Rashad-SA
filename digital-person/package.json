@@ -11,5 +11,8 @@
   "description": "",
   "dependencies": {
     "@soulmachines/smwebsdk": "^15.8.1"
+  },
+  "devDependencies": {
+    "vite": "^6.0.2"
   }
 }
