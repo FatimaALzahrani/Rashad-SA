@@ -68,7 +68,7 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     checkSubscription(user.uid);
   } else {
-    window.location.href = "../login.html";
+    window.location.href = "../login/index.html";
   }
 });
 
