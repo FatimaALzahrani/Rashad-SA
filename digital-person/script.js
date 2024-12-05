@@ -16,7 +16,7 @@ const auth = firebase.auth();
 
 auth.onAuthStateChanged(function (user) {
   if (!user) {
-    window.location.href = "./login/index.html";
+    window.location.href = "../login/index.html";
   } else {
     const userId = user.uid;
     fetchSubscription(userId, user.email);
@@ -25,31 +25,45 @@ auth.onAuthStateChanged(function (user) {
 
 function fetchSubscription(userId, userEmail) {
   const subscriptionRef = db.ref("subscriptions");
+
   subscriptionRef
-    .orderByChild("email")
-    .equalTo(userEmail)
     .once("value")
     .then((snapshot) => {
       if (snapshot.exists()) {
-        const subscriptionData = snapshot.val();
-        const subscriptionKey = Object.keys(subscriptionData)[0];
-        const userSubscription = subscriptionData[subscriptionKey];
+        const subscriptions = snapshot.val();
+        let foundSubscription = null;
+        let subscriptionType = null;
 
-        let timeLimit = 15 * 60 * 1000;
+        Object.keys(subscriptions).forEach((type) => {
+          const typeSubscriptions = subscriptions[type];
 
-        if (userSubscription.status === "COMPLETED") {
-          if (userSubscription.username === "gold") {
-            timeLimit = -1;
-          } else if (userSubscription.username === "silver") {
-            timeLimit = 40 * 60 * 1000;
-          } else if (userSubscription.username === "bronze") {
-            timeLimit = 25 * 60 * 1000;
+          Object.keys(typeSubscriptions).forEach((key) => {
+            const subscription = typeSubscriptions[key];
+            if (subscription.email === userEmail) {
+              foundSubscription = subscription;
+              subscriptionType = type;
+            }
+          });
+        });
+
+        if (foundSubscription) {
+          let timeLimit = 15 * 60 * 1000;
+          if (foundSubscription.status === "COMPLETED") {
+            if (subscriptionType === "gold") {
+              timeLimit = -1;
+            } else if (subscriptionType === "silver") {
+              timeLimit = 40 * 60 * 1000;
+            } else if (subscriptionType === "bronze") {
+              timeLimit = 25 * 60 * 1000;
+            }
           }
-        }
 
-        setupUserTime(userId, timeLimit, userSubscription.status);
+          setupUserTime(userId, timeLimit, foundSubscription.status);
+        } else {
+          setupUserTime(userId, 15 * 60 * 1000, null);
+        }
       } else {
-        setupUserTime(userId, 15 * 60 * 1000, null);
+        console.error("لم يتم العثور على أي بيانات في قاعدة البيانات.");
       }
     })
     .catch((error) => console.error("خطأ في جلب بيانات الاشتراك:", error));
