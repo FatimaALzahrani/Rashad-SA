@@ -18,19 +18,7 @@ async function initializeDigitalPerson() {
     console.log("Video started with state:", videoState);
   } catch (error) {
     console.error("Connection failed:", error);
-    switch (error.name) {
-      case "noUserMedia":
-        alert("Access to camera/microphone denied.");
-        break;
-      case "noScene":
-        alert("Invalid API key.");
-        break;
-      case "serverConnectionFailed":
-        alert("Network error.");
-        break;
-      default:
-        alert("An unknown error occurred.");
-    }
+    alert("An error occurred. Check the console for details.");
   }
 }
 
