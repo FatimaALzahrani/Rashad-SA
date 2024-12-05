@@ -136,7 +136,9 @@ function displayRemainingTime(ms) {
     const seconds = Math.floor((ms % 60000) / 1000);
     document.getElementById(
       "remaining-time-message"
-    ).innerText = `الوقت المتبقي: ${minutes} دقيقة و ${seconds} ثانية`;
+    ).innerText = `الوقت المتبقي: ${minutes} دقيقة و ${seconds} ${
+      seconds < 11 ? `ثانية` : `ثواني`
+    }`;
   } else {
     document.getElementById("remaining-time-message").innerText =
       "لقد انتهى وقتك اليوم.";
