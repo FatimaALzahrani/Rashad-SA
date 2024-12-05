@@ -1,0 +1,1 @@
+{"version":3,"file":"MetadataSender.d.ts","sourceRoot":"","sources":["../src/MetadataSender.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,SAAS,CAAC;AAIhC,qBAAa,cAAc;IAIb,OAAO,CAAC,KAAK;IAHzB,OAAO,CAAC,YAAY,CAAwB;IAC5C,OAAO,CAAC,SAAS,CAAmB;gBAEhB,KAAK,EAAE,KAAK;IAIzB,iBAAiB;IAIjB,UAAU;IAIV,IAAI;IAaX,OAAO,CAAC,sBAAsB;CAQ/B"}

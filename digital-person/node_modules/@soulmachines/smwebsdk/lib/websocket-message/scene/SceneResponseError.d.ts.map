@@ -1,0 +1,1 @@
+{"version":3,"file":"SceneResponseError.d.ts","sourceRoot":"","sources":["../../../src/websocket-message/scene/SceneResponseError.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,KAAK;IAC3C,WAAW,SAAM;IACjB,MAAM,SAAK;IACX,YAAY,EAAE,GAAG,CAAC;IAElB,IAAI,OAAO,WAEV;CACF"}

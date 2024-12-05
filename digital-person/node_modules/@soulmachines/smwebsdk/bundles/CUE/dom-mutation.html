@@ -1,0 +1,163 @@
+<html><head><title>DOM Manipulation</title><script defer="defer" src="../smwebsdk.js"></script><script defer="defer" src="../smwebsdk.min.js"></script></head><body><h1>DOM Manipulation</h1><p>The WebSDK Supports the following:</p><h2>Browser Resize</h2><ul><li>Browser fullscreened</li><li>Browser docked on screen</li><li>Browser manually resized</li><li>Device rotated</li></ul><h2>Video Element</h2><ul><li onclick="addVideo()">Element with `data-sm-video` is added</li><li onclick="removeVideo()">Element with `data-sm-video` is removed</li><li onclick="addVideoAttribute()">Element has `data-sm-video` added</li><li onclick="removeVideoAttribute()">Element has `data-sm-video` removed</li></ul><h2>Content Elements</h2><ul><li onclick="addContent()">Element with `data-sm-content` added</li><li onclick="removeContent()">Element with `data-sm-content` removed</li><li onclick="addContentAttribute()">Element has `data-sm-content` added</li><li onclick="removeContentAttribute()">Element has `data-sm-content` removed</li><li onclick="updateContentAttribute()">Element's `data-sm-content` value changed</li></ul><script>function addVideo() {
+        let videoEl = document.getElementById('video');
+        if (videoEl) {
+          console.warn('video element already exists');
+        } else {
+          videoEl = document.createElement('div');
+          videoEl.id = 'video';
+          videoEl.setAttribute('data-sm-video', '');
+          document.body.appendChild(videoEl);
+        }
+      }
+
+      function removeVideo() {
+        const videoEl = document.getElementById('video');
+        if (videoEl) {
+          document.body.removeChild(videoEl);
+        } else {
+          console.warn('no video element to remove');
+        }
+      }
+
+      function addVideoAttribute() {
+        const videoEl = document.getElementById('video');
+        if (videoEl) {
+          videoEl.setAttribute('data-sm-video', '');
+        } else {
+          console.warn('no video element to add attribute to');
+        }
+      }
+
+      function removeVideoAttribute() {
+        const videoEl = document.getElementById('video');
+        if (videoEl) {
+          videoEl.removeAttribute('data-sm-video');
+        } else {
+          console.warn('no video element to remove attribute from');
+        }
+      }
+
+      function addContent() {
+        let contentEl = document.createElement('div');
+        let randomHash = Math.random().toString(20).substr(2, 6).toUpperCase();
+        contentEl.classList.add('content');
+        contentEl.setAttribute(
+          'data-sm-content',
+          'contentElement' + randomHash
+        );
+        document.body.appendChild(contentEl);
+      }
+
+      function removeContent() {
+        let contentEls = document.getElementsByClassName('content');
+
+        if (contentEls.length > 0) {
+          let contentEl = Array.from(contentEls)[contentEls.length - 1];
+          document.body.removeChild(contentEl);
+        } else {
+          console.warn('no content to remove');
+        }
+      }
+
+      function addContentAttribute() {
+        let contentEls = document.getElementsByClassName('content');
+
+        if (contentEls.length > 0) {
+          let contentEl = Array.from(contentEls)[contentEls.length - 1];
+          if (contentEl.hasAttribute('data-sm-content')) {
+            console.warn('element already has data-sm-content attribute');
+          } else {
+            let randomHash = Math.random()
+              .toString(20)
+              .substr(2, 6)
+              .toUpperCase();
+            contentEl.setAttribute(
+              'data-sm-content',
+              'contentElement' + randomHash
+            );
+          }
+        } else {
+          console.warn('no content to add atribute to');
+        }
+      }
+
+      function removeContentAttribute() {
+        let contentEls = document.getElementsByClassName('content');
+
+        if (contentEls.length > 0) {
+          let contentEl = Array.from(contentEls)[contentEls.length - 1];
+          contentEl.removeAttribute('data-sm-content');
+        } else {
+          console.warn('no content to remove');
+        }
+      }
+
+      function updateContentAttribute() {
+        let contentEls = document.getElementsByClassName('content');
+
+        if (contentEls.length > 0) {
+          let contentEl = Array.from(contentEls)[contentEls.length - 1];
+          if (contentEl.hasAttribute('data-sm-content')) {
+            let randomHash = Math.random()
+              .toString(20)
+              .substr(2, 6)
+              .toUpperCase();
+            contentEl.setAttribute(
+              'data-sm-content',
+              'contentElement' + randomHash
+            );
+          } else {
+            console.warn(
+              'element does not have data-sm-content attribute to update'
+            );
+          }
+        } else {
+          console.warn('no content to add attribute to');
+        }
+      }</script><style>body,
+      html {
+        font-family: sans-serif;
+      }
+
+      li[onclick] {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      #video,
+      .content {
+        font-family: monospace;
+        font-size: 130%;
+      }
+
+      #video {
+        width: 300px;
+        height: 150px;
+        border: 2px solid black;
+        background: #333333;
+        color: white;
+      }
+
+      #video::after {
+        content: '<video>';
+      }
+
+      #video[data-sm-video]::after {
+        content: '<video data-sm-video>';
+      }
+
+      .content {
+        width: 500px;
+        height: 40px;
+        border: 2px solid black;
+        background: #a6bcd3;
+      }
+
+      .content::after {
+        content: '<div>';
+      }
+
+      .content[data-sm-content]::after {
+        content: '<div data-sm-content="' attr(data-sm-content) '">';
+      }</style></body></html>

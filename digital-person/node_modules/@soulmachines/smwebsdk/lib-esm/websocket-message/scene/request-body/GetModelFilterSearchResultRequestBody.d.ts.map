@@ -1,0 +1,1 @@
+{"version":3,"file":"GetModelFilterSearchResultRequestBody.d.ts","sourceRoot":"","sources":["../../../../src/websocket-message/scene/request-body/GetModelFilterSearchResultRequestBody.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAC;AAE1D;;GAEG;AACH,MAAM,WAAW,qCACf,SAAQ,kBAAkB;IAC1B,MAAM,EAAE,MAAM,CAAC;CAChB"}

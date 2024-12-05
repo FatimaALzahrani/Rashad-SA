@@ -1,0 +1,1 @@
+{"version":3,"file":"StopBlProfilingRequestBody.d.ts","sourceRoot":"","sources":["../../../../src/websocket-message/scene/request-body/StopBlProfilingRequestBody.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAC;AAE1D;;GAEG;AACH,MAAM,WAAW,0BAA2B,SAAQ,kBAAkB;IACpE,OAAO,EAAE,OAAO,CAAC;CAClB"}

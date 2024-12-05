@@ -1,0 +1,72 @@
+<html><head><style>body,
+      html {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      #persona-video {
+        object-fit: cover;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }</style><script defer="defer" src="../smwebsdk.js"></script><script defer="defer" src="../smwebsdk.min.js"></script></head><body><video id="persona-video" data-sm-video autoplay></video><script>/**
+       * sm-specific scripts
+       */
+
+      // create a proxy video element so that we can
+      // keep a globally accessible copy of the stream
+      let proxyVideo = document.createElement('video'); // -> <video>
+
+      let videoEl;
+      let scene;
+      let persona;
+
+      const updateVideoBounds = (videoEl, scene) => {
+        if (videoEl && scene && scene.isConnected()) {
+          const videoFrameRect = videoEl.getBoundingClientRect();
+          if (window.SmIsUnderRuntimeHost) {
+            window['SmRuntimeHostUpdateBounds'](
+              videoFrameRect.top,
+              videoFrameRect.left,
+              videoFrameRect.bottom,
+              videoFrameRect.right
+            );
+          } else {
+            scene.sendVideoBounds(videoFrameRect.width, videoFrameRect.height);
+          }
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        videoEl = document.getElementById('persona-video');
+        scene = new smwebsdk.Scene({
+          videoElement: proxyVideo,
+        });
+        persona = new smwebsdk.Persona(scene, 1);
+
+        console.log(`webSdk version: ${scene.version.webSdk}`);
+
+        try {
+          const response = await fetch('/api/jwt');
+          const { url, jwt } = await response.json();
+
+          await scene.connect({
+            tokenServer: {
+              uri: url,
+              token: jwt,
+            },
+          });
+
+          updateVideoBounds(videoEl, scene);
+          window.addEventListener('resize', () =>
+            updateVideoBounds(videoEl, scene)
+          );
+
+          console.log('🚀🚀🚀 connected!');
+          videoEl.srcObject = proxyVideo.srcObject;
+        } catch (error) {
+          console.log('❌❌❌ Failed to connect');
+          console.error(error);
+        }
+      });</script></body></html>

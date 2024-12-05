@@ -1,0 +1,1 @@
+{"version":3,"file":"MonitorSetRequestBody.d.ts","sourceRoot":"","sources":["../../../../src/websocket-message/scene/request-body/MonitorSetRequestBody.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAC;AAE1D,MAAM,WAAW,qBAAsB,SAAQ,kBAAkB;IAC/D,SAAS,EAAE,GAAG,CAAC;CAChB"}

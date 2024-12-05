@@ -1,0 +1,679 @@
+<html><head><title>Random locations</title><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/><script defer="defer" src="../smwebsdk.js"></script><script defer="defer" src="../smwebsdk.min.js"></script></head><style>body,
+    html {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .video-wrapper {
+      resize: both;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    #persona-video {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      transition: 0.25s opacity ease-out;
+      cursor: move;
+    }
+
+    .loading #persona-video {
+      opacity: 0;
+    }
+
+    .loader {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      display: none;
+      position: absolute;
+    }
+
+    .loading .loader {
+      display: block;
+    }
+
+    .loading .controls {
+      display: none;
+    }
+
+    .dynamic-box {
+      position: absolute;
+      resize: both;
+      pointer-events: all;
+      overflow: hidden;
+    }
+
+    .dynamic-box div {
+      width: 100%;
+      height: 100%;
+      cursor: move;
+      background: radial-gradient(
+        circle,
+        rgba(238, 174, 202, 1) 0%,
+        rgba(148, 187, 233, 1) 100%
+      );
+    }
+
+    .dynamic-image {
+      position: absolute;
+      display: flex;
+      resize: both;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.65);
+      align-items: center;
+      justify-content: center;
+      pointer-events: all;
+    }
+
+    .dynamic-image img {
+      cursor: move;
+    }
+
+    .zone {
+      position: absolute;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    @media (orientation: landscape) {
+      .landscape-label {
+        display: block;
+      }
+      .zone {
+        height: 100%;
+        width: 50%;
+      }
+
+      #zoneOne {
+        left: 0;
+      }
+
+      #zoneTwo {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #zoneThree {
+        right: 0;
+      }
+    }
+
+    @media (orientation: portrait) {
+      .portrait-label {
+        display: block;
+      }
+
+      .zone {
+        width: 100%;
+        height: 50%;
+      }
+
+      #zoneOne {
+        top: 0;
+      }
+
+      #zoneTwo {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      #zoneThree {
+        bottom: 0;
+      }
+    }
+
+    .showZones .zone {
+      border: 2px solid black;
+    }
+
+    fieldset {
+      padding: 0;
+      margin: 0;
+      border: none;
+      display: flex;
+    }
+
+    legend {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: flex;
+      margin-right: 5px;
+    }
+
+    label span {
+      display: none;
+    }
+
+    .controls {
+      z-index: 100;
+      position: absolute;
+
+      display: flex;
+      align-items: flex-start;
+    }
+
+    #topControls {
+      top: 10px;
+      right: 10px;
+    }
+
+    #footerControls {
+      left: 10px;
+      bottom: 10px;
+    }
+
+    .control {
+      background-color: white;
+      padding: 10px;
+      margin: 0 5px;
+      border-radius: 3px;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    button {
+      margin: 0 5px;
+      border: 0;
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus {
+      text-decoration: underline;
+    }
+
+    .roundbutton {
+      background-color: #a8a8a8;
+      color: white;
+      border-radius: 50%;
+      padding: 0;
+      min-width: auto;
+      width: 40px;
+      height: 40px;
+      margin: 0 10px 0 0;
+      transition: all 0.25s ease-out;
+    }
+
+    .roundbutton:hover,
+    .roundbutton:focus {
+      background-color: #525252;
+      color: white;
+    }
+
+    .modal {
+      display: none;
+      position: absolute;
+      max-width: 600px;
+      width: 100%;
+      height: 600px;
+      top: 50%;
+      left: 50%;
+      z-index: 100;
+      transform: translate(-50%, -50%);
+      border-radius: 3px;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    .showModal .modal {
+      display: block;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      background-color: #2e2e2e;
+      color: white;
+      padding: 5px 10px;
+      box-sizing: border-box;
+      overflow: hidden;
+      font-size: 18px;
+    }
+
+    .header button {
+      margin-left: auto;
+      color: white;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 10px;
+      box-sizing: border-box;
+      height: 100%;
+    }
+
+    .sidebar {
+      position: absolute;
+      height: 100%;
+      width: 320px;
+      top: 0;
+      left: 0;
+      background-color: white;
+      z-index: 150;
+      transform: translateX(-320px);
+      transition: transform 0.25s ease-out;
+    }
+    .showSidebar .sidebar {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .textinput {
+      width: 100%;
+      height: 40px;
+      padding: 10px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: black;
+    }
+
+    #conversationSendButton {
+      border: none;
+      background: none;
+      color: #293d8c;
+      padding: 10px;
+    }
+
+    #conversationSendButton:hover,
+    #conversationSendButton:focus {
+      color: #852b62;
+      outline: none;
+    }
+
+    #conversationSendArea {
+      background: #c2d9f0;
+      border-radius: 24px;
+      display: inline-flex;
+    }</style><body class="loading showZones"><div class="video-wrapper"><video id="persona-video" data-sm-video autoplay></video></div><img src="../shared/img/spinner.svg" alt="Loading" class="loader"/><div id="zoneOne" class="zone"></div><div id="zoneTwo" class="zone"></div><div id="zoneThree" class="zone"></div><div id="topControls" class="controls"><div class="control"><button id="toggleZoneVisibility">Toggle zone visibility</button> <button id="randomizeButton">Randomize</button> <button id="addImageButton">Add image</button> <button id="addBoxButton">Add box</button> <button id="removeElementsButton">Remove elements</button></div><div class="control"><fieldset><legend>Elements will appear in these zones</legend><label for="one"><input id="one" name="zoneOne" type="checkbox"/> <span class="portrait-label">Top</span> <span class="landscape-label">Left</span></label> <label for="two"><input id="two" name="zoneTwo" type="checkbox" checked="checked"/> <span class="portrait-label landscape-label">Middle</span></label> <label for="three"><input id="three" name="zoneThree" type="checkbox" checked="checked"/> <span class="portrait-label">Bottom</span> <span class="landscape-label">Right</span></label></fieldset></div></div><div id="footerControls" class="controls"><button id="muteButton" class="roundbutton"><span class="material-icons">&#xe029;</span></button> <button id="stopSpeakingButton" class="roundbutton"><span class="material-icons">&#xe04f;</span></button> <button id="transcriptButton" class="roundbutton transcriptButton"><span class="material-icons">&#xe0c9;</span></button> <button id="sidebarButton" class="roundbutton sidebarButton"><span class="material-icons">&#xe5d2;</span></button><div id="conversationSendArea"><input class="textinput" id="conversationSendText"/> <button id="conversationSendButton"><span class="material-icons">&#xe163;</span></button></div></div><div class="sidebar" data-sm-content="sm-sidebar"><div class="header"><p>Sidebar</p><button class="sidebarButton"><span class="material-icons">&#xe5cd;</span></button></div><ul><li>Item</li><li>Item</li><li>Item</li><li>Item</li><li>Item</li></ul></div><div class="modal" data-sm-content="sm-modal"><div class="header"><p>Transcript</p><button class="transcriptButton"><span class="material-icons">&#xe5cd;</span></button></div><div class="modal-content"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p><p>Ea tempore perferendis commodi quidem iste repudiandae, repellendus ratione dicta qui?</p><p>Magnam omnis et eius modi ea pariatur sint earum, voluptates nobis?</p><p>Nesciunt reiciendis nostrum facere voluptates vitae maiores eaque est molestiae, distinctio totam minus, impedit saepe, quas velit necessitatibus nam!</p><p>Reiciendis quidem harum suscipit iste, exercitationem qui maxime hic dicta aliquam unde incidunt aliquid possimus ipsam, repellat odit aspernatur eligendi consequuntur rerum asperiores enim veritatis libero esse!</p><p>Autem, sit animi?</p><p>Quibusdam quisquam, tempore quos vel dolorum itaque modi? Harum nam eos illum reprehenderit accusantium dolore rerum repellendus, ad tenetur.</p></div></div><script type="module">import createImage from './scripts/buildKittenImage.js';
+      import {
+        randomNumberInRange,
+        randomPosition,
+        toggleClass,
+      } from './scripts/utils.js';
+      import makeDraggable from './scripts/dragElement.js';
+      import throttle from './scripts/throttle.js';
+
+      let videoEl;
+      let scene;
+      let persona;
+      let activeZones = [];
+      let isMute = false;
+
+      const toggleZoneVisibilityButton = document.getElementById(
+        'toggleZoneVisibility'
+      );
+      const checkboxes = document.querySelectorAll('input[type=checkbox]');
+      const proxyVideo = document.createElement('video');
+      const randomizeButton = document.getElementById('randomizeButton');
+      const addImageButton = document.getElementById('addImageButton');
+      const addBoxButton = document.getElementById('addBoxButton');
+      const removeElementsButton = document.getElementById(
+        'removeElementsButton'
+      );
+      const muteButton = document.getElementById('muteButton');
+      const stopSpeakingButton = document.getElementById('stopSpeakingButton');
+      const transcriptButtons =
+        document.getElementsByClassName('transcriptButton');
+      const sidebarButtons = document.getElementsByClassName('sidebarButton');
+      const conversationSendButton = document.getElementById(
+        'conversationSendButton'
+      );
+      const conversationSendText = document.getElementById(
+        'conversationSendText'
+      );
+
+      // Functions
+      const updateVideoBounds = (videoEl, scene) => {
+        if (videoEl && scene && scene.isConnected()) {
+          const videoFrameRect = videoEl.getBoundingClientRect();
+          if (window.SmIsUnderRuntimeHost) {
+            window['SmRuntimeHostUpdateBounds'](
+              videoFrameRect.top,
+              videoFrameRect.left,
+              videoFrameRect.bottom,
+              videoFrameRect.right
+            );
+          } else {
+            scene.sendVideoBounds(videoFrameRect.width, videoFrameRect.height);
+          }
+        }
+      };
+
+      const repositionElement = (element) => {
+        const randomArrayIndex = randomNumberInRange(0, activeZones.length - 1);
+        const zone = document.getElementById(activeZones[randomArrayIndex]);
+        const { width, height } = element.getBoundingClientRect();
+
+        // Position element
+        const { x, y } = randomPosition(zone, width, height);
+
+        element.style.top = `${y}px`;
+        element.style.left = `${x}px`;
+
+        zone.appendChild(element);
+      };
+
+      const getSelectedZones = () => {
+        const checkedCheckboxes = Array.from(checkboxes).filter(
+          (i) => i.checked
+        );
+
+        activeZones = checkedCheckboxes.map((i) => i.name);
+
+        // Make sure at least one checkbox is checked
+        if (checkedCheckboxes.length === 1) {
+          checkedCheckboxes[0].disabled = true;
+        } else {
+          Array.from(checkboxes).map((checkbox) => {
+            checkbox.disabled = false;
+          });
+        }
+      };
+
+      const addBox = (id) => {
+        const randomArrayIndex = randomNumberInRange(0, activeZones.length - 1);
+        const width = randomNumberInRange(40, 400);
+        const height = randomNumberInRange(40, 400);
+        const zone = document.getElementById(activeZones[randomArrayIndex]);
+        const boxWrapper = document.createElement('div');
+        const box = document.createElement('div');
+
+        boxWrapper.setAttribute('data-sm-content', id);
+        boxWrapper.classList.add('dynamic-box');
+        boxWrapper.appendChild(box);
+
+        boxWrapper.style.width = `${width}px`;
+        boxWrapper.style.height = `${height}px`;
+
+        // Add element to DOM
+        zone.appendChild(boxWrapper);
+
+        makeDraggable(
+          box,
+          throttle(() => {
+            scene.sendContent();
+          }, 300)
+        );
+
+        // Position element
+        const { x, y } = randomPosition(zone, width, height);
+        boxWrapper.style.top = `${y}px`;
+        boxWrapper.style.left = `${x}px`;
+      };
+
+      const addImage = (id) => {
+        const randomArrayIndex = randomNumberInRange(0, activeZones.length - 1);
+        const zone = document.getElementById(activeZones[randomArrayIndex]);
+        const width = randomNumberInRange(40, 400);
+        const height = randomNumberInRange(40, 400);
+        const imageWrapper = createImage(id, width, height);
+        const parentNode = document.createElement('div');
+
+        // Add element to DOM
+        parentNode.append(imageWrapper);
+        zone.appendChild(parentNode);
+
+        makeDraggable(
+          imageWrapper.querySelector('img'),
+          throttle(() => {
+            scene.sendContent();
+          }, 300)
+        );
+
+        // Position element
+        const { x, y } = randomPosition(zone, width, height);
+        imageWrapper.style.top = `${y}px`;
+        imageWrapper.style.left = `${x}px`;
+      };
+
+      const toggleMute = () => {
+        if (scene && scene.isConnected()) {
+          const span = muteButton.querySelector('span');
+
+          if (isMute) {
+            span.innerHTML = '\ue029';
+            scene.startRecognize();
+          } else {
+            span.innerHTML = '\ue02b';
+            scene.stopRecognize();
+          }
+
+          isMute = !isMute;
+        }
+      };
+
+      const stopSpeaking = () => {
+        if (scene && scene.isConnected() && persona) {
+          persona.stopSpeaking();
+        }
+      };
+
+      const sendUserText = (text) => {
+        if (scene && scene.isConnected() && persona && text) {
+          persona.conversationSend(text, {}, {});
+        }
+      };
+
+      const onSpeechMarker = (persona, message) => {
+        if (message.name === 'hidecards') {
+          // Remove all images if hidecards args are 0
+          if (message.arguments.length === 0) {
+            const images = document.querySelectorAll('.dynamic-image');
+            Array.from(images).map((image) => image.remove());
+            return;
+          }
+
+          // Remove images by id
+          message.arguments.map((id) => {
+            const image = document.getElementById(id);
+            if (image) {
+              image.remove();
+            }
+          });
+        } else if (message.name === 'showcards') {
+          // Add image by id
+          message.arguments.map((id) => addImage(id));
+        }
+      };
+
+      const randomizeImages = () => {
+        const images = document.querySelectorAll(
+          '.dynamic-image, .dynamic-box'
+        );
+
+        Array.from(images).map((element) => {
+          repositionElement(element);
+        });
+
+        // Inform scene that content has changed position
+        scene.sendContent();
+      };
+
+      // Observers
+      const observer = new MutationObserver((mutations) => {
+        mutations.map((mutation) => {
+          const targetClasses = Array.from(mutation.target.classList);
+          // Update video bounds if it's being resized
+          if (targetClasses.includes('video-wrapper')) {
+            updateVideoBounds(videoEl, scene);
+          }
+        });
+      });
+
+      const child = document.querySelector('.video-wrapper, .dynamic-image');
+      observer.observe(child, { attributes: true });
+
+      // Events
+      toggleZoneVisibilityButton.addEventListener(
+        'click',
+        (event) => toggleClass(document.body, 'showZones'),
+        false
+      );
+
+      Array.from(transcriptButtons).map((button) => {
+        button.addEventListener(
+          'click',
+          (event) => {
+            toggleClass(document.body, 'showModal');
+            scene.sendContent();
+          },
+          false
+        );
+      });
+
+      Array.from(sidebarButtons).map((button) => {
+        button.addEventListener(
+          'click',
+          (event) => {
+            toggleClass(document.body, 'showSidebar');
+            scene.sendContent();
+          },
+          false
+        );
+      });
+
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', getSelectedZones);
+      });
+
+      muteButton.addEventListener(
+        'click',
+        (event) => {
+          toggleMute();
+        },
+        false
+      );
+
+      stopSpeakingButton.addEventListener(
+        'click',
+        (event) => {
+          stopSpeaking();
+        },
+        false
+      );
+
+      randomizeButton.addEventListener(
+        'click',
+        () => {
+          randomizeImages();
+        },
+        false
+      );
+
+      addImageButton.addEventListener(
+        'click',
+        () => {
+          const uniqueId = Date.now();
+          addImage(uniqueId);
+        },
+        false
+      );
+
+      addBoxButton.addEventListener(
+        'click',
+        () => {
+          const uniqueId = Date.now();
+          addBox(uniqueId);
+        },
+        false
+      );
+
+      removeElementsButton.addEventListener(
+        'click',
+        () => {
+          const elements = document.querySelectorAll(
+            '.dynamic-image, .dynamic-box'
+          );
+
+          Array.from(elements).forEach((element) => element.remove());
+        },
+        false
+      );
+
+      conversationSendButton.addEventListener(
+        'click',
+        () => {
+          if (conversationSendText) {
+            sendUserText(conversationSendText.value);
+            conversationSendText.value = '';
+          }
+        },
+        false
+      );
+
+      conversationSendText.addEventListener('keyup', (event) => {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          conversationSendButton.click();
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        videoEl = document.getElementById('persona-video');
+        scene = new smwebsdk.Scene({
+          videoElement: proxyVideo,
+          loggingConfig: {
+            session: {
+              minLogLevel: 'warn',
+            },
+            contentAwareness: {
+              minLogLevel: 'warn',
+            },
+          },
+        });
+        persona = new smwebsdk.Persona(scene, 1);
+
+        persona.onSpeechMarkerEvent.addListener(onSpeechMarker);
+
+        makeDraggable(
+          videoEl,
+          throttle(() => {
+            scene.sendContent();
+          }, 300)
+        );
+
+        try {
+          if (window.SmIsUnderRuntimeHost) {
+            await scene.connect('Ignored', 'Ignored', 'Ignored');
+          } else {
+            const response = await fetch('/api/jwt');
+            const { url, jwt } = await response.json();
+
+            await scene.connect({
+              tokenServer: {
+                uri: url,
+                token: jwt,
+              },
+            });
+          }
+
+          getSelectedZones();
+
+          document.body.classList.remove('loading');
+
+          updateVideoBounds(videoEl, scene);
+
+          window.addEventListener('resize', () => {
+            updateVideoBounds(videoEl, scene);
+          });
+
+          console.log('🚀🚀🚀 connected!');
+          videoEl.srcObject = proxyVideo.srcObject;
+        } catch (error) {
+          console.log('❌❌❌ Failed to connect');
+          console.error(error);
+        }
+      });</script></body></html>

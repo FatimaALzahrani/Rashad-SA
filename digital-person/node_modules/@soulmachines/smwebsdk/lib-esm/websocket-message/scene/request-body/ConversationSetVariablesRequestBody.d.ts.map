@@ -1,0 +1,1 @@
+{"version":3,"file":"ConversationSetVariablesRequestBody.d.ts","sourceRoot":"","sources":["../../../../src/websocket-message/scene/request-body/ConversationSetVariablesRequestBody.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAC;AAC1D,OAAO,EAAE,cAAc,EAAE,MAAM,gCAAgC,CAAC;AAEhE;;GAEG;AACH,MAAM,WAAW,mCACf,SAAQ,kBAAkB;IAC1B,SAAS,EAAE,cAAc,CAAC;CAC3B"}

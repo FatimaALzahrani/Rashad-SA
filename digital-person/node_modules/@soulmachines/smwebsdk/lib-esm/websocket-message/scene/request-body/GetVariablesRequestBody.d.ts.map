@@ -1,0 +1,1 @@
+{"version":3,"file":"GetVariablesRequestBody.d.ts","sourceRoot":"","sources":["../../../../src/websocket-message/scene/request-body/GetVariablesRequestBody.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAC;AAE1D;;GAEG,CAAC,MAAM,WAAW,uBAAwB,SAAQ,kBAAkB;IACrE,KAAK,EAAE,MAAM,EAAE,CAAC;IAChB,aAAa,EAAE,OAAO,CAAC;IACvB,MAAM,CAAC,EAAE,MAAM,CAAC;CACjB"}
